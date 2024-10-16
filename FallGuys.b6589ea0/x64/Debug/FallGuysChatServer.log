@@ -1,2 +1,3 @@
 ﻿  main.cpp
+M:\Game\Unity\Fallguys\ChatSever\FallguysChatServer\main.cpp(45,20): warning C4018: '<': signed/unsigned mismatch
   FallGuysChatServer.vcxproj -> M:\Game\Unity\Fallguys\ChatSever\FallguysChatServer\x64\Debug\FallGuysChatServer.exe

@@ -42,7 +42,7 @@ int main()
 		if (ChangeSocketCount < 0)
 			break;
 
-		for(int i = 0; i < ChangeSocketCount; ++i)
+		for(int i = 0; i < ReadSockets.fd_count; ++i)
 		{
 			if(FD_ISSET(ReadSockets.fd_array[i], &CopySockets))
 			{
@@ -55,6 +55,7 @@ int main()
 					FD_SET(ClientServer, &ReadSockets);
 
 					std::cout << "Client Connect!" << std::endl;
+					std::cout << "Socket Count : " << ReadSockets.fd_count << std::endl;
 				}
 				else
 				{
@@ -63,18 +64,21 @@ int main()
 
 					if (recvCount <= 0)
 					{
+						std::cout << "Recv Error" << std::endl;
 						SOCKET DisconnectedSocket = ReadSockets.fd_array[i];
 						FD_CLR(DisconnectedSocket, &ReadSockets);
 						closesocket(DisconnectedSocket);
 					}
 					else
 					{
+						std::cout << "Recv Message : " << recvCount << std::endl;
 						for(int j = 0; j < static_cast<int>(ReadSockets.fd_count); ++j)
 						{
-							if (ReadSockets.fd_array[j] == Server)
-								continue;
-
-							int SendCount = send(ReadSockets.fd_array[j], (char*)Buffer, recvCount, 0);
+							if (ReadSockets.fd_array[j] != Server)
+							{
+								int SendCount = send(ReadSockets.fd_array[j], (char*)Buffer, recvCount, 0);
+								std::cout << "Send Message : " << SendCount << std::endl;
+							}
 						}
 
 					}
